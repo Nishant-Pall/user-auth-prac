@@ -2,12 +2,8 @@ const express = require("express");
 
 const app = express();
 
-// use middleware globally
-app.use(middleware1);
-app.use(middleware2);
-
 function middleware1(req, res, next) {
-    console.log("I am a middleware");
+    console.log("I am a middleware1");
     req.customProperty = 100;
     next();
 }
@@ -23,6 +19,13 @@ function middleware2(req, res, next) {
     req.customProperty = 700;
     next();
 }
+
+// use middleware globally
+// only get executed when we execute the get route
+// app.use() doesnt execute them
+// it just adds them into the chain of executed middlewares
+app.use(middleware1);
+app.use(middleware2);
 
 app.get("/", (req, res, next) => {
     console.log("I am a standard callback");
